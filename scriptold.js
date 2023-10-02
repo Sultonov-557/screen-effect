@@ -12,8 +12,8 @@ async function start() {
 	const canvas = document.querySelector("canvas");
 	const ctx = canvas.getContext("2d");
 	const pixelMap = await imageToArray("./img.png");
-	canvas.width = pixelMap.length * 3;
-	canvas.height = pixelMap[0].length * 3;
+	canvas.width = pixelMap.length * 4;
+	canvas.height = pixelMap[0].length * 4;
 
 	for (let x = 0; x <= canvas.width; x++) {
 		for (let y = 0; y <= canvas.width; y++) {
@@ -26,21 +26,24 @@ async function start() {
 	function getColorFromPixelMap(x, y) {
 		x = parseInt(x);
 		y = parseInt(y);
-		let imageX = parseInt(x / 3);
-		let imageY = parseInt(y / 3);
-		if ((x % 3) - 0 == 0) {
+		let imageX = parseInt(x / 4);
+		let imageY = parseInt(y / 4);
+		if (x % 4 == 0 || y % 4 == 0) {
+			return background;
+		}
+		if ((x % 4) - 1 == 0) {
 			if (pixelMap[imageX][imageY]) {
 				return new Color(pixelMap[imageX][imageY].r, 0, 0);
 			}
 			return background;
 		}
-		if ((x % 3) - 1 == 0) {
+		if ((x % 4) - 2 == 0) {
 			if (pixelMap[imageX][imageY]) {
 				return new Color(0, pixelMap[imageX][imageY].g, 0);
 			}
 			return background;
 		}
-		if ((x % 3) - 2 == 0) {
+		if ((x % 4) - 3 == 0) {
 			if (pixelMap[imageX][imageY]) {
 				return new Color(0, 0, pixelMap[imageX][imageY].b);
 			}
